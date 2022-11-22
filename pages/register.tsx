@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { Loginregister } from '../components/loginregister/loginregister'
+import { Loginregisterform } from '../components/loginregisterfrom/loginregisterform'
 import styles from '../styles/Home.module.scss'
 
 export default function Home() {
@@ -13,9 +14,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <Loginregister />
-        <div className={styles.contentinit}>
-          <h1>To do List</h1>
-        </div>
+        <Loginregisterform title='Register' button='Register'/>
       </main>
     </div>
   )

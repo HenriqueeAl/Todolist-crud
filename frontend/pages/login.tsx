@@ -2,9 +2,21 @@ import Head from 'next/head'
 import { Loginregister } from '../components/loginregister/loginregister'
 import { Loginregisterform } from '../components/loginregisterfrom/loginregisterform'
 import styles from '../styles/Home.module.scss'
-import login from '../styles/login.module.scss'
+import { Api } from '../utils/axios'
+
+interface login{
+  user: string;
+  password: string;
+}
 
 export default function Home() {
+
+  const submitlogin = (e: login) => {
+    Api.post('/login', {user: e.user, password: e.password}).then((response)=>{
+      console.log(response)
+    })
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,7 +27,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <Loginregister />
-        <Loginregisterform title='Login' button='login'/>
+        <Loginregisterform title='Login' button='login' submit={submitlogin}/>
       </main>
     </div>
   )

@@ -48,11 +48,14 @@ app.post('/login', async (req: any, res: any) => {
         const passwordverify = haveuser.dataValues.password
         if(passwordverify === passwordlogin){
             console.log('logado')
+            res.status(200).json({message: 'logado',
+            user: userlogin
+            })
         }else{
-            console.log('Senha errada')
+            res.status(406).json({message: 'senha errada'})
         }
     }else{
-        console.log('usuario nao encontrado')
+        res.status(406).json({message: 'usuario nao encontrado'})
     }
 })
 

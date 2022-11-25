@@ -13,7 +13,8 @@ export default function Home() {
 
   const submitlogin = (e: login) => {
     Api.post('/login', {user: e.user, password: e.password}).then((response)=>{
-      console.log(response)
+      console.log(response.data.message)
+      sessionStorage.setItem('u', response.data.user)
     })
   }
 

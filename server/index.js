@@ -47,13 +47,16 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const passwordverify = haveuser.dataValues.password;
         if (passwordverify === passwordlogin) {
             console.log('logado');
+            res.status(200).json({ message: 'logado',
+                user: userlogin
+            });
         }
         else {
-            console.log('Senha errada');
+            res.status(406).json({ message: 'senha errada' });
         }
     }
     else {
-        console.log('usuario nao encontrado');
+        res.status(406).json({ message: 'usuario nao encontrado' });
     }
 }));
 var server = http.createServer(app);

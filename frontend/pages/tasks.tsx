@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { Addtask } from '../components/addtask/addtask'
 import { Logout } from '../components/logout/logout'
 import { Task } from '../components/task/task'
 import { Taskcomplete } from '../components/taskcomplete/taskcomplete'
@@ -31,7 +30,6 @@ export default function Home() {
                 <Taskcomplete text='TESTANDO' />
                 <Taskcomplete text='TESTANDO' />
             </div>
-            <Addtask></Addtask>
         </div>
       </main>
     </div>

@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var http = require('http');
 const express = require('express');
 const app = express();
@@ -16,9 +17,14 @@ const md5 = require('md5');
 app.use(require("cors")());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-const Userimport = require('./models/users');
+const Userimport = require('./models/user');
+const taskimport = require('./models/tasks');
+Userimport.hasMany(taskimport, {
+    foreingKey: 'testid',
+    as: 'testid'
+});
 const database = require('./db');
-database.sync();
+database.sync({ force: true });
 app.post('/register', (req, res) => {
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
@@ -58,6 +64,11 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     else {
         res.status(406).json({ message: 'usuario nao encontrado' });
     }
+}));
+app.post('/addtask', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    taskimport.create({
+        task: req.body.task
+    });
 }));
 var server = http.createServer(app);
 server.listen(5051);

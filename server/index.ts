@@ -1,3 +1,5 @@
+import { AnyARecord } from "dns";
+
 var http = require('http');
 const express = require('express');
 const app = express();
@@ -13,10 +15,17 @@ interface User {
     password: string;
 }
 
-const Userimport = require('./models/users');
+const Userimport = require('./models/user');
+const taskimport = require('./models/tasks')
+
+Userimport.hasMany(taskimport,{
+    foreingKey: 'testid',
+    as: 'testid'
+})
+
 const database = require('./db');
 
-database.sync()
+database.sync({force:true})
 
 app.post('/register', (req: any , res: any) => {
     const usercadast: string = req.body.user
@@ -57,6 +66,12 @@ app.post('/login', async (req: any, res: any) => {
     }else{
         res.status(406).json({message: 'usuario nao encontrado'})
     }
+})
+
+app.post('/addtask', async (req: any, res: any) => {
+    taskimport.create({
+        task: req.body.task
+    })
 })
 
 var server = http.createServer(app); 

@@ -103,7 +103,8 @@
     "files": [
       "index.ts",
       "db.ts",
-      "models/users.ts"
+      "models/user.ts",
+      "models/tasks.ts"
     ]
   }
   

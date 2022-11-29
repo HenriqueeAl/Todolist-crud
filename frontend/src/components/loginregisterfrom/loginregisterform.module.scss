@@ -1,0 +1,78 @@
+.login{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    h1{
+        font-weight: 400;
+        font-size: 96px;
+        color: white;
+        font-family: 'Julee', cursive;
+        margin-bottom: 50px;
+    }
+    
+    .box{
+        width: 500px;
+        height: 560px;
+        background-color: #484C69;
+        border-radius: 10px;
+        form{
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            .inputs{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                input{
+                    width: 80%;
+                    height: 80px;
+                    border-radius: 10px;
+                    border: none;
+                    padding-left: 19px;
+                    margin: 22px;
+                    font-size: 16px;
+                }
+            }
+            button{
+                width: 80%;
+                height: 80px;
+                background-color: #4EB879;
+                border-radius: 10px;
+                border: none;
+                font-weight: 400;
+                font-size: 32px;
+                cursor: pointer;
+                font-family: 'Julee', cursive;
+                color: white;
+            }
+        }
+
+        .description{
+            display: flex;
+            height: 15%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            p{
+                width: 100%;
+                font-size: 32px;
+                font-family: 'Julee';
+                color: white;
+                text-align: center;
+            }
+    
+            a{
+                font-family: 'Julee';
+                font-size: 20px;
+                color: white;
+            }
+        }
+    }
+}

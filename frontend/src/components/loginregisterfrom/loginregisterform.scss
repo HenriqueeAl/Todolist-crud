@@ -38,6 +38,13 @@
                     padding-left: 19px;
                     margin: 22px;
                     font-size: 16px;
+                    outline: none;
+                }
+                .err{
+                    border: 3px solid red; 
+                }
+                p{
+                    color: red;
                 }
             }
             button{

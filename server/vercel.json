@@ -3,10 +3,8 @@
 "builds": [
     {
         "src": "index.js",
-        "use": "@now/node"
-    },
-    {
-        "installCommand": "pnpm install"
+        "use": "@now/node",
+        "packageManager": "pnpm@7.5.1"
     }
 ],
 "routes": [

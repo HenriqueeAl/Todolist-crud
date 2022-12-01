@@ -1,4 +1,4 @@
-import { Sequelize } from "../db";
+/*import { Sequelize } from "../db";
 export const database_2 = require('../db')
 
 export const Tasks = database_2.define('tasks', {
@@ -20,4 +20,4 @@ export const Tasks = database_2.define('tasks', {
         timestamps: false
     });
 
-module.exports = Tasks;
+module.exports = Tasks;*/

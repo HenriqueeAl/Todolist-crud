@@ -1,4 +1,4 @@
-export const Sequelize = require('sequelize');
+/*export const Sequelize = require('sequelize');
 
 require("dotenv").config();
 
@@ -8,4 +8,4 @@ const sequelize = new Sequelize(process.env.BANCO, process.env.USER, process.env
     port: process.env.PORT 
 })
 
-module.exports = sequelize;
+module.exports = sequelize;*/

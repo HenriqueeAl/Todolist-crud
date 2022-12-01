@@ -1,4 +1,5 @@
-var http = require('http');
+import { PrismaClient } from "@prisma/client";
+
 const express = require('express');
 const app = express();
 const md5 = require('md5'); // HASH PASSWORD
@@ -8,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // DATA BASE
-
+/*
 const Userimport = require('./models/user');
 const taskimport = require('./models/tasks')
 
@@ -17,29 +18,43 @@ Userimport.hasMany(taskimport, {
     as: 'userId'
 })
 const database = require('./db');
-database.sync()
+database.sync()*/
 
 // END - DATA BASE
 
 // ROUTE REGISTER
+const prisma = new PrismaClient()
+
+interface Userconsult {
+    id?: number;
+    user?: string;
+    password?: string;
+    task?: object
+}
 
 app.post('/register', (req: any , res: any) => {
     const usercadast: string = req.body.user
     const passwordcadast: string = req.body.password
 
     const validantion = async ()=>{
-        const userconsult = await Userimport.findOne({where: {user:usercadast}})
+        const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})
 
         if(userconsult){
             res.status(401).json({message: 'Usuario ja em uso', err: 'user'})
         }else{
             if(usercadast.length >= 6){
                 if(passwordcadast.length >= 8){
-                    Userimport.create({
+                    const ver = await prisma.user.create({
+                        data: {
+                            user: usercadast,
+                            password: md5(passwordcadast),
+                        }
+                    })
+                    /*Userimport.create({
                         user: usercadast,
                         password: md5(passwordcadast)
-                    })
-                    res.status(200).json({message: 'cadastrado', user: usercadast})
+                    })*/
+                    res.status(200).json({message: 'cadastrado', /*user: usercadast*/})
                 }else{
                     res.status(401).json({
                         message: 'A Senha deve ter 8 caracteres',
@@ -55,14 +70,21 @@ app.post('/register', (req: any , res: any) => {
         }
     }
 
-    validantion()
+    validantion().then(async () => {
+        await prisma.$disconnect()
+      })
+      .catch(async (e) => {
+        console.error(e)
+        await prisma.$disconnect()
+        process.exit(1)
+      })
 })
 
 // END - ROUTE REGISTER
 
 // ROUTE LOGIN
 
-app.post('/login', async (req: any, res: any) => {
+/*app.post('/login', async (req: any, res: any) => {
     const userlogin: string = req.body.user
     const passwordlogin: string = md5(req.body.password)
 
@@ -180,7 +202,7 @@ app.post('/consult', async (req: any, res:any)=>{
         })
         res.status(200).json(tasks.userId)
     }
-})
+})*/
 
 //END - ROUTE CONSULT
 

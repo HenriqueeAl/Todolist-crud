@@ -184,7 +184,6 @@ app.post('/consult', async (req: any, res:any)=>{
 
 //END - ROUTE CONSULT
 
-
-app.listen(5050 , ()=>console.log("Servidor escutando na porta 5051..."));
+app.listen(5051 , ()=>console.log("Servidor escutando na porta 5051..."));
 
 module.exports = app;

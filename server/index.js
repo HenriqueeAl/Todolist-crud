@@ -143,5 +143,5 @@ app.post('/consult', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(200).json(tasks.userId);
     }
 }));
-app.listen(5050, () => console.log("Servidor escutando na porta 5051..."));
+app.listen(5051, () => console.log("Servidor escutando na porta 5051..."));
 module.exports = app;

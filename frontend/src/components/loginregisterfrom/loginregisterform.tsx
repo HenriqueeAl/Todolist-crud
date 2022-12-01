@@ -1,9 +1,12 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import { useLogin } from '../../utils/useLogin';
 import './loginregisterform.scss'
 
 
 export const Loginregisterform = (props: any) =>{
+    const login = useLogin()
+
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,8 +21,10 @@ export const Loginregisterform = (props: any) =>{
             user: user,
             password: password
         }).then((res)=>{
-            localStorage.setItem('u', res.data.user)
-            console.log(res.data.user)
+            if(res.data.user){
+                localStorage.setItem('u', res.data.user)
+                login.login()
+            }
             setresp('')
             setMessageresp('')
         })

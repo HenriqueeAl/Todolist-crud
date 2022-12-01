@@ -1,19 +1,23 @@
 import { Sequelize } from "../db";
 export const database_2 = require('../db')
 
-export const Task = database_2.define('task', {
+export const Tasks = database_2.define('tasks', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    task: {
+    name: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    complete: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
     }, {
         timestamps: false
     });
 
-module.exports = Task;
+module.exports = Tasks;

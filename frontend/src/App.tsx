@@ -3,15 +3,20 @@ import Login from './pages/login'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from './pages/register';
 import { Task } from './components/task/task';
+import { ProtectedLayout } from './utils/protect';
+import { AuthContext, AuthProvider } from './utils/authprovider';
 
 function App() {
   
   return (
-    <BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
 
           <Route path="*" element={
-                <Login/>
+                <ProtectedLayout>
+                    <Task></Task>
+                </ProtectedLayout>
           }>
 
           </Route>
@@ -21,14 +26,10 @@ function App() {
 
           </Route>
 
-          <Route path="/tasks" element={<Task></Task>}>
-
-
-          </Route>
-
         </Routes>
         
       </BrowserRouter>
+    </AuthProvider>
   )
 }
 

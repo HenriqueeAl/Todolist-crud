@@ -18,6 +18,11 @@ interface User {
 const Userimport = require('./models/user');
 const taskimport = require('./models/tasks')
 
+Userimport.hasMany(taskimport, {
+    foreingKey: 'userId',
+    as: 'userId'
+})
+
 const database = require('./db');
 
 database.sync()
@@ -29,14 +34,11 @@ app.post('/register', (req: any , res: any) => {
     const validantion = async ()=>{
         const userconsult = await Userimport.findOne({where: {user:usercadast}})
 
-        console.log(userconsult)
-
         if(userconsult){
             res.status(401).json({message: 'Usuario ja em uso'})
         }else{
             if(usercadast.length >= 6){
                 if(passwordcadast.length >= 8){
-                    console.log('senha maior que 8')
                     Userimport.create({
                         user: usercadast,
                         password: md5(passwordcadast)
@@ -87,10 +89,76 @@ app.post('/login', async (req: any, res: any) => {
     }
 })
 
-app.post('/addtask', async (req: any, res: any) => {
-    taskimport.create({
-        task: req.body.task
-    })
+app.post('/tasks', async (req: any, res: any) => {
+    const name = req.body.name
+    const loggeduser = req.body.user
+    const userid = await Userimport.findOne({where: {user:loggeduser}})
+    const id = userid.dataValues.id
+    if(name != ''){
+        await taskimport.create({
+            name: name,
+            userId: id
+        })
+        const tasks = await Userimport.findByPk(id, {
+            include: {
+                model: taskimport,
+                as: 'userId'
+            }
+        })
+        res.status(200).json(tasks.userId)
+    }
+})
+
+app.post('/delete', async (req: any, res: any)=>{
+    const iddelete = req.body.deleted
+
+    const taskdelete = await taskimport.findByPk(iddelete)
+
+    if(taskdelete){
+        await taskdelete.destroy({force:true})
+        res.status(200).json({message: 'deleted'})
+    }
+})
+
+app.post('/edit', async (req: any, res: any)=>{
+    const edited = req.body.edit
+    const name = req.body.name
+
+    const taskedit = await taskimport.findByPk(edited)
+
+    if(taskedit){
+        taskedit.update({name: name})
+        await taskedit.save();
+        res.status(200).json({message: 'update'})
+    }
+})
+
+app.post('/complete', async (req: any, res: any)=>{
+
+    const idcomplete = req.body.complete
+
+    const taskcomplete = await taskimport.findByPk(idcomplete)
+
+    if(taskcomplete){
+        taskcomplete.update({complete: true})
+        await taskcomplete.save()
+        res.status(200).json({message: 'update'})
+    }
+})
+
+app.post('/consult', async (req: any, res:any)=>{
+    const userconsult = req.body.user
+    const user = await Userimport.findOne({where: {user:userconsult}})
+    const id = user.dataValues.id
+    if(userconsult){
+        const tasks = await Userimport.findByPk(id,{
+            include: {
+                model: taskimport,
+                as: 'userId'
+            }
+        })
+        res.status(200).json(tasks.userId)
+    }
 })
 
 var server = http.createServer(app); 

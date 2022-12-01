@@ -19,6 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const Userimport = require('./models/user');
 const taskimport = require('./models/tasks');
+Userimport.hasMany(taskimport, {
+    foreingKey: 'userId',
+    as: 'userId'
+});
 const database = require('./db');
 database.sync();
 app.post('/register', (req, res) => {
@@ -26,14 +30,12 @@ app.post('/register', (req, res) => {
     const passwordcadast = req.body.password;
     const validantion = () => __awaiter(void 0, void 0, void 0, function* () {
         const userconsult = yield Userimport.findOne({ where: { user: usercadast } });
-        console.log(userconsult);
         if (userconsult) {
             res.status(401).json({ message: 'Usuario ja em uso' });
         }
         else {
             if (usercadast.length >= 6) {
                 if (passwordcadast.length >= 8) {
-                    console.log('senha maior que 8');
                     Userimport.create({
                         user: usercadast,
                         password: md5(passwordcadast)
@@ -83,10 +85,65 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 }));
-app.post('/addtask', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    taskimport.create({
-        task: req.body.task
-    });
+app.post('/tasks', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const name = req.body.name;
+    const loggeduser = req.body.user;
+    const userid = yield Userimport.findOne({ where: { user: loggeduser } });
+    const id = userid.dataValues.id;
+    if (name != '') {
+        yield taskimport.create({
+            name: name,
+            userId: id
+        });
+        const tasks = yield Userimport.findByPk(id, {
+            include: {
+                model: taskimport,
+                as: 'userId'
+            }
+        });
+        res.status(200).json(tasks.userId);
+    }
+}));
+app.post('/delete', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const iddelete = req.body.deleted;
+    const taskdelete = yield taskimport.findByPk(iddelete);
+    if (taskdelete) {
+        yield taskdelete.destroy({ force: true });
+        res.status(200).json({ message: 'deleted' });
+    }
+}));
+app.post('/edit', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const edited = req.body.edit;
+    const name = req.body.name;
+    const taskedit = yield taskimport.findByPk(edited);
+    if (taskedit) {
+        taskedit.update({ name: name });
+        yield taskedit.save();
+        res.status(200).json({ message: 'update' });
+    }
+}));
+app.post('/complete', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const idcomplete = req.body.complete;
+    const taskcomplete = yield taskimport.findByPk(idcomplete);
+    if (taskcomplete) {
+        taskcomplete.update({ complete: true });
+        yield taskcomplete.save();
+        res.status(200).json({ message: 'update' });
+    }
+}));
+app.post('/consult', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userconsult = req.body.user;
+    const user = yield Userimport.findOne({ where: { user: userconsult } });
+    const id = user.dataValues.id;
+    if (userconsult) {
+        const tasks = yield Userimport.findByPk(id, {
+            include: {
+                model: taskimport,
+                as: 'userId'
+            }
+        });
+        res.status(200).json(tasks.userId);
+    }
 }));
 var server = http.createServer(app);
 server.listen(5051);

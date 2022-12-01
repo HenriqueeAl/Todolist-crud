@@ -13,6 +13,24 @@
     p{
         width: 75%;
     }
+    form{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        input{
+            width: 75%;
+            height: 50%;
+        }
+        button{
+            width: 25%;
+            height: 50%;
+            border: none;
+            background-color: transparent;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    }
     .icons{
         width: 20%;
         display: flex;

@@ -63,7 +63,21 @@
         background-color: #484C69;
         border-radius: 10px;
         display: flex;
-        align-items: center;
-        flex-direction: column;
+        justify-content: center;
+        align-content: flex-start;
+        flex-direction: row;
+        overflow-y: scroll;
+        flex-wrap: wrap;
+    }
+    .box::-webkit-scrollbar{
+        width: 20px;
+    }
+    .box::-webkit-scrollbar-track{
+        box-shadow: inset 0 0 10px 10px #484C69;
+        border: solid 9px transparent;
+    }
+    .box::-webkit-scrollbar-thumb{
+        box-shadow: inset 0 0 10px 10px #2B2E43;
+        border: solid 9px transparent;
     }
 }

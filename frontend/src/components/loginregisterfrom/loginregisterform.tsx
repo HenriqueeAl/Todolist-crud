@@ -46,7 +46,7 @@ export const Loginregisterform = (props: Form) =>{
         }).then((res)=>{
             notifysucces()
             if(res.data.user){
-                window.location.href = "http://localhost:5173/";
+                window.location.href = "https://todolist-crud.vercel.app/";
                 localStorage.setItem('u', res.data.user)
                 login.login()
             }

@@ -1,12 +1,26 @@
 import React, { createContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext()
+interface IUser{
+    user?: string | null;
+}
 
-export const AuthProvider = ({ children }) => {
-    const [loggeduser, setLogeeduser] = useState();
+interface IContext{
+    loggeduser?: any;
+    login: ()=> void;
+    logout: ()=> void
+}
+
+interface IAuthProvider {
+    children: JSX.Element
+}
+
+export const AuthContext = createContext<IContext>({} as IContext)
+
+export const AuthProvider = ({ children }: IAuthProvider ) => {
+    const [loggeduser, setLogeeduser] = useState<IUser | null>(null);
 
     useEffect(()=>{
-        let user = localStorage.getItem('u')
+        const user: any = localStorage.getItem('u')
 
         if(user){
             setLogeeduser(user)
@@ -14,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = () => {
-        let user = localStorage.getItem('u')
+        const user: any = localStorage.getItem('u')
 
         if(user){
             setLogeeduser(user)

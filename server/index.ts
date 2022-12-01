@@ -1,19 +1,13 @@
-import { AnyARecord } from "dns";
-
 var http = require('http');
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-const md5 = require('md5');
+const md5 = require('md5'); // HASH PASSWORD
 
 app.use(require("cors")());
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 
-interface User {
-    user: string;
-    password: string;
-}
+// DATA BASE
 
 const Userimport = require('./models/user');
 const taskimport = require('./models/tasks')
@@ -22,10 +16,12 @@ Userimport.hasMany(taskimport, {
     foreingKey: 'userId',
     as: 'userId'
 })
-
 const database = require('./db');
-
 database.sync()
+
+// END - DATA BASE
+
+// ROUTE REGISTER
 
 app.post('/register', (req: any , res: any) => {
     const usercadast: string = req.body.user
@@ -35,7 +31,7 @@ app.post('/register', (req: any , res: any) => {
         const userconsult = await Userimport.findOne({where: {user:usercadast}})
 
         if(userconsult){
-            res.status(401).json({message: 'Usuario ja em uso'})
+            res.status(401).json({message: 'Usuario ja em uso', err: 'user'})
         }else{
             if(usercadast.length >= 6){
                 if(passwordcadast.length >= 8){
@@ -43,7 +39,7 @@ app.post('/register', (req: any , res: any) => {
                         user: usercadast,
                         password: md5(passwordcadast)
                     })
-                    res.status(200).json({message: 'cadastrado'})
+                    res.status(200).json({message: 'cadastrado', user: usercadast})
                 }else{
                     res.status(401).json({
                         message: 'A Senha deve ter 8 caracteres',
@@ -61,6 +57,10 @@ app.post('/register', (req: any , res: any) => {
 
     validantion()
 })
+
+// END - ROUTE REGISTER
+
+// ROUTE LOGIN
 
 app.post('/login', async (req: any, res: any) => {
     const userlogin: string = req.body.user
@@ -89,6 +89,10 @@ app.post('/login', async (req: any, res: any) => {
     }
 })
 
+// END - ROUTE LOGIN
+
+// ROUTE TASKS
+
 app.post('/tasks', async (req: any, res: any) => {
     const name = req.body.name
     const loggeduser = req.body.user
@@ -109,6 +113,11 @@ app.post('/tasks', async (req: any, res: any) => {
     }
 })
 
+// END - ROUTE TASKS
+
+
+//ROUTE DELETE
+
 app.post('/delete', async (req: any, res: any)=>{
     const iddelete = req.body.deleted
 
@@ -119,6 +128,10 @@ app.post('/delete', async (req: any, res: any)=>{
         res.status(200).json({message: 'deleted'})
     }
 })
+
+// END - ROUTE DELETE
+
+//ROUTE EDIT
 
 app.post('/edit', async (req: any, res: any)=>{
     const edited = req.body.edit
@@ -133,6 +146,10 @@ app.post('/edit', async (req: any, res: any)=>{
     }
 })
 
+// END - ROUTE EDIT
+
+// ROUTE COMPLETE
+
 app.post('/complete', async (req: any, res: any)=>{
 
     const idcomplete = req.body.complete
@@ -145,6 +162,10 @@ app.post('/complete', async (req: any, res: any)=>{
         res.status(200).json({message: 'update'})
     }
 })
+
+// END - ROUTE COMPLETE
+
+// ROUTE CONSULT
 
 app.post('/consult', async (req: any, res:any)=>{
     const userconsult = req.body.user
@@ -160,6 +181,8 @@ app.post('/consult', async (req: any, res:any)=>{
         res.status(200).json(tasks.userId)
     }
 })
+
+//END - ROUTE CONSULT
 
 var server = http.createServer(app); 
 server.listen(5051);

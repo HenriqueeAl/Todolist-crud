@@ -8,11 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var http = require('http');
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const md5 = require('md5');
 app.use(require("cors")());
 app.use(express.urlencoded({ extended: true }));
@@ -31,7 +29,7 @@ app.post('/register', (req, res) => {
     const validantion = () => __awaiter(void 0, void 0, void 0, function* () {
         const userconsult = yield Userimport.findOne({ where: { user: usercadast } });
         if (userconsult) {
-            res.status(401).json({ message: 'Usuario ja em uso' });
+            res.status(401).json({ message: 'Usuario ja em uso', err: 'user' });
         }
         else {
             if (usercadast.length >= 6) {
@@ -40,7 +38,7 @@ app.post('/register', (req, res) => {
                         user: usercadast,
                         password: md5(passwordcadast)
                     });
-                    res.status(200).json({ message: 'cadastrado' });
+                    res.status(200).json({ message: 'cadastrado', user: usercadast });
                 }
                 else {
                     res.status(401).json({

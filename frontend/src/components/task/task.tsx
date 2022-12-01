@@ -1,11 +1,70 @@
 import './task.scss'
 import { AiFillEdit, AiFillDelete, AiOutlineCheck } from 'react-icons/ai';
-import { Taskbox } from '../taskbox/taskbox';
+import { Taskbox, Tasks } from '../taskbox/taskbox';
 import { useLogin } from '../../utils/useLogin';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+
+interface Id {
+    id: number
+}
+
+interface modify extends Id{
+    name: string
+}
+
+const notifyadd = () => {
+    toast.success('Task adicionada', {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    })}
+
+const notifydeleted = () => {
+    toast.warning('Task deletada', {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    })}
+
+const notifyedited = () => {
+    toast.success('Task Editada', {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    })}
+
+const notifycomlete = () => {
+    toast.success('Task completada', {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    })}
 
 export const Task = () => {
+
     const login = useLogin()
 
     const [tasks, setTasks] = useState([]);
@@ -18,7 +77,8 @@ export const Task = () => {
             name: taskname,
             user: login.loggeduser
         }).then((res)=>{
-            setTasks(res.data)
+            notifyadd()
+            update()
         })
 
         setTaskname('')
@@ -27,10 +87,11 @@ export const Task = () => {
     /*Deletando task*/
     const [deleted, setDeleted] = useState()
 
-    const deletetask = async (e)=>{
+    const deletetask = async (e: Id)=>{
         axios.post('http://localhost:5051/delete', {
             deleted: e
         }).then((res)=>{
+            notifydeleted()
             update()
         })
     }
@@ -39,28 +100,25 @@ export const Task = () => {
 
     /*Marcando task como completada*/
 
-    const completetask = async (e)=>{
+    const completetask = async (e: Id)=>{
         await  axios.post('http://localhost:5051/complete', {
             complete: e
-        })
+        }).then(()=>notifycomlete())
         update()
     }
 
-    /*useEffect(()=>{
-        axios.post('http://localhost:5051/complete', {
-            complete: complete
-        })
-        update()
-    }, [complete])*/
 
+    /*Modificar nome*/
     const [value, setValue] = useState('')
 
-    const modifyname = (e)=>{
+    const modifyname = (e: modify)=>{
         
         axios.post('http://localhost:5051/edit', {
-            edit: e.id,
+            edit: e,
             name: value
-        })
+        }).then((res)=>notifyedited())
+
+        update()
     }
 
     /*Mostar as tasks na tela*/
@@ -68,8 +126,11 @@ export const Task = () => {
         axios.post('http://localhost:5051/consult', {
             user: login.loggeduser
         }).then((res)=>{
-            console.log(res.data)
-            setTasks(res.data)
+            const arrayorder = res.data
+            arrayorder.sort((a, b)=>{
+                return a.id < b.id ? -1 : (a.id > b.id) ? 1 : 0
+            })
+            setTasks(arrayorder)
         })
     }
 
@@ -89,15 +150,16 @@ export const Task = () => {
                 <button className='add'>+</button>
             </form>
             <div className='box'>
-                {tasks.map((e)=> <Taskbox name={e.name}
+                {tasks.map((e: Tasks)=> <Taskbox name={e.name}
                 complete={e.complete} 
                 deleted={()=>{deletetask(e.id)}}
-                value={(e)=>{setValue(e)}} 
-                modifyname={()=>{modifyname(e)}}
+                value={(e: string)=>{setValue(e)}} 
+                modifyname={()=>{modifyname(e.id)}}
                 completepost={()=>completetask(e.id)}
                 ></Taskbox>
                 )}
             </div>
+            <ToastContainer />
         </div>
     )
 }

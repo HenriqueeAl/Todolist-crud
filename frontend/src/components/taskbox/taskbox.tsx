@@ -1,16 +1,24 @@
-import styles from './taskbox.module.scss'
+import './taskbox.scss'
 import { BiTrash, BiEditAlt, BiCheck } from 'react-icons/bi';
 import { useState } from 'react';
-import axios from 'axios';
-import { useLogin } from '../../utils/useLogin';
 
-export const Taskbox = ( props ) => {
+export interface Tasks{
+    name: string;
+    complete: Boolean;
+    modifyname: Function;
+    value: Function;
+    deleted: Function;
+    completepost: Function;
+    id?: any;
+}
+
+export const Taskbox = ( props: Tasks ) => {
     const [editando, setEditando] = useState(false)
 
     const [value, setValue] = useState(props.name)
     
     return (
-        <div className={styles.taskbox} style={props.complete == true ? {border: '3px solid #4EB879'}: {}}>
+        <div className='taskbox' style={props.complete == true ? {border: '3px solid #4EB879'}: {}}>
             {editando == false ?
             <p>{props.name}</p>
             : 
@@ -28,16 +36,20 @@ export const Taskbox = ( props ) => {
                 </button>
             </form>}
             {editando == false ?
-            <div className={styles.icons} style={props.complete == true ? {justifyContent: 'flex-end'}: {}}>
-                <BiTrash className={styles.icon} onClick={()=>props.deleted()}></BiTrash>
+            <div className='icons' style={props.complete == true ? {justifyContent: 'flex-end'}: {}}>
+                <BiTrash className='icon' onClick={()=>props.deleted()}></BiTrash>
                 {
                     props.complete == false ?
-                <BiEditAlt className={styles.icon} onClick={()=>setEditando(true)}></BiEditAlt> :
+                <BiEditAlt className='icon' onClick={()=>{
+                    setEditando(true)
+                    props.value(props.name)
+                    setValue(props.name)
+                }}></BiEditAlt> :
                 <></>
                 }
                 {
                     props.complete == false ?
-                <BiCheck className={styles.icon} onClick={()=>props.completepost()}></BiCheck> :
+                <BiCheck className='icon' onClick={()=>props.completepost()}></BiCheck> :
                 <></>
                 }
             </div>

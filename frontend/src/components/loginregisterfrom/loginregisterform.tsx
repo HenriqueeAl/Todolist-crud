@@ -2,9 +2,32 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useLogin } from '../../utils/useLogin';
 import './loginregisterform.scss'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
-export const Loginregisterform = (props: any) =>{
+interface Form {
+    children: never[];
+    post: string;
+    type: string;
+    description: string;
+    linkto: string;
+    link: string;
+}
+
+const notifysucces = () => {
+    toast.success('Registrado com sucesso', {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    })}
+
+export const Loginregisterform = (props: Form) =>{
     const login = useLogin()
 
     const [user, setUser] = useState('');
@@ -21,7 +44,9 @@ export const Loginregisterform = (props: any) =>{
             user: user,
             password: password
         }).then((res)=>{
+            notifysucces()
             if(res.data.user){
+                window.location.href = "http://localhost:5173/";
                 localStorage.setItem('u', res.data.user)
                 login.login()
             }
@@ -87,6 +112,7 @@ export const Loginregisterform = (props: any) =>{
                     <a href={props.linkto}>{props.link}</a>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

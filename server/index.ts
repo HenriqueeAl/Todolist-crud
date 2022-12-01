@@ -21,6 +21,10 @@ database.sync()
 
 // END - DATA BASE
 
+app.get("/", (req: any, res:any) => {
+    res.send("Express on Vercel");
+});
+
 // ROUTE REGISTER
 
 app.post('/register', (req: any , res: any) => {
@@ -184,8 +188,6 @@ app.post('/consult', async (req: any, res:any)=>{
 
 //END - ROUTE CONSULT
 
-const port = process.env.PORT || 3000
-
-app.listen(port , ()=>console.log("Servidor escutando na porta 5051..."));
+app.listen(5000 , ()=>console.log("Servidor escutando na porta 5000..."));
 
 module.exports = app;

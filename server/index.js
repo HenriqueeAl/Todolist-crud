@@ -23,6 +23,9 @@ Userimport.hasMany(taskimport, {
 });
 const database = require('./db');
 database.sync();
+app.get("/", (req, res) => {
+    res.send("Express on Vercel");
+});
 app.post('/register', (req, res) => {
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
@@ -143,6 +146,5 @@ app.post('/consult', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(200).json(tasks.userId);
     }
 }));
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log("Servidor escutando na porta 5051..."));
+app.listen(5000, () => console.log("Servidor escutando na porta 5000..."));
 module.exports = app;

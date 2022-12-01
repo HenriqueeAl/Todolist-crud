@@ -1,10 +1,10 @@
 {
 "version": 2,
+"installCommand": "npm install",
 "builds": [
     {
         "src": "index.js",
-        "use": "@now/node",
-        "packageManager": "pnpm@7.5.1"
+        "use": "@now/node"
     }
 ],
 "routes": [

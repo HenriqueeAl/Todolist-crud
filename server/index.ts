@@ -26,11 +26,15 @@ database.sync()*/
 const prisma = new PrismaClient()
 
 interface Userconsult {
-    id?: number;
-    user?: string;
-    password?: string;
-    task?: object
+    id?: number | null;
+    user?: string | null;
+    password?: string | null;
+    task?: object | null;
 }
+
+app.get('/', (req: any, res: any)=>{
+    res.send('oi')
+})
 
 app.post('/register', (req: any , res: any) => {
     const usercadast: string = req.body.user
@@ -38,6 +42,8 @@ app.post('/register', (req: any , res: any) => {
 
     const validantion = async ()=>{
         const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})
+
+        console.log(userconsult)
 
         if(userconsult){
             res.status(401).json({message: 'Usuario ja em uso', err: 'user'})

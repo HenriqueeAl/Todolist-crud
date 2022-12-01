@@ -187,3 +187,5 @@ app.post('/consult', async (req: any, res:any)=>{
 const port = process.env.PORT || 3000
 
 app.listen(port , ()=>console.log("Servidor escutando na porta 5051..."));
+
+module.exports = app;

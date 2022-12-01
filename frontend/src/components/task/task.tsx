@@ -127,7 +127,7 @@ export const Task = () => {
             user: login.loggeduser
         }).then((res)=>{
             const arrayorder = res.data
-            arrayorder.sort((a, b)=>{
+            arrayorder.sort((a: Id, b: Id)=>{
                 return a.id < b.id ? -1 : (a.id > b.id) ? 1 : 0
             })
             setTasks(arrayorder)

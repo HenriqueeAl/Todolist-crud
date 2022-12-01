@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 interface Form {
-    children: never[];
+    children?: never[];
     post: string;
     type: string;
     description: string;

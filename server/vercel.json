@@ -4,6 +4,9 @@
     {
         "src": "index.js",
         "use": "@now/node"
+    },
+    {
+        "installCommand": "pnpm install"
     }
 ],
 "routes": [

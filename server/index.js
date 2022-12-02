@@ -18,14 +18,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const prisma = new client_1.PrismaClient();
 app.get('/', (req, res) => {
-    res.send('oi');
+    res.json('oi');
 });
 app.post('/register', (req, res) => {
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
     const validantion = () => __awaiter(void 0, void 0, void 0, function* () {
         const userconsult = yield prisma.user.findFirst({ where: { user: usercadast } });
-        console.log(userconsult);
         if (userconsult) {
             res.status(401).json({ message: 'Usuario ja em uso', err: 'user' });
         }

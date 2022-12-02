@@ -19,7 +19,7 @@ interface Userconsult {
 }
 
 app.get('/', (req: any, res: any)=>{
-    res.send('oi')
+    res.json('oi')
 })
 
 app.post('/register', (req: any , res: any) => {
@@ -28,8 +28,6 @@ app.post('/register', (req: any , res: any) => {
 
     const validantion = async ()=>{
         const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})
-
-        console.log(userconsult)
 
         if(userconsult){
             res.status(401).json({message: 'Usuario ja em uso', err: 'user'})

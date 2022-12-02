@@ -8,20 +8,6 @@ app.use(require("cors")());
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 
-// DATA BASE
-/*
-const Userimport = require('./models/user');
-const taskimport = require('./models/tasks')
-
-Userimport.hasMany(taskimport, {
-    foreingKey: 'userId',
-    as: 'userId'
-})
-const database = require('./db');
-database.sync()*/
-
-// END - DATA BASE
-
 // ROUTE REGISTER
 const prisma = new PrismaClient()
 
@@ -50,16 +36,12 @@ app.post('/register', (req: any , res: any) => {
         }else{
             if(usercadast.length >= 6){
                 if(passwordcadast.length >= 8){
-                    const ver = await prisma.user.create({
+                    await prisma.user.create({
                         data: {
                             user: usercadast,
                             password: md5(passwordcadast),
                         }
                     })
-                    /*Userimport.create({
-                        user: usercadast,
-                        password: md5(passwordcadast)
-                    })*/
                     res.status(200).json({message: 'cadastrado', /*user: usercadast*/})
                 }else{
                     res.status(401).json({
@@ -90,14 +72,16 @@ app.post('/register', (req: any , res: any) => {
 
 // ROUTE LOGIN
 
-/*app.post('/login', async (req: any, res: any) => {
+app.post('/login', async (req: any, res: any) => {
     const userlogin: string = req.body.user
     const passwordlogin: string = md5(req.body.password)
 
-    const haveuser = await Userimport.findOne({where:{user:userlogin}})
+    const haveuser = await prisma.user.findFirst({where:{user:userlogin}})
+
+    console.log(haveuser)
 
     if(haveuser){
-        const passwordverify = haveuser.dataValues.password
+        const passwordverify = haveuser.password
         if(passwordverify === passwordlogin){
             res.status(200).json({
                 message: 'logado',
@@ -124,20 +108,13 @@ app.post('/register', (req: any , res: any) => {
 app.post('/tasks', async (req: any, res: any) => {
     const name = req.body.name
     const loggeduser = req.body.user
-    const userid = await Userimport.findOne({where: {user:loggeduser}})
-    const id = userid.dataValues.id
-    if(name != ''){
-        await taskimport.create({
-            name: name,
-            userId: id
-        })
-        const tasks = await Userimport.findByPk(id, {
-            include: {
-                model: taskimport,
-                as: 'userId'
-            }
-        })
-        res.status(200).json(tasks.userId)
+    const userid: Userconsult | null = await prisma.user.findFirst({where: {user:loggeduser}})
+    if(userid){
+        const id = userid.id
+        if(id){
+            await prisma.task.create({data: {name: name,complete: false, userId: id}})
+            res.status(200).json('foi')
+        }
     }
 })
 
@@ -149,10 +126,9 @@ app.post('/tasks', async (req: any, res: any) => {
 app.post('/delete', async (req: any, res: any)=>{
     const iddelete = req.body.deleted
 
-    const taskdelete = await taskimport.findByPk(iddelete)
+    const taskdelete = await prisma.task.delete({where: {id: iddelete}})
 
     if(taskdelete){
-        await taskdelete.destroy({force:true})
         res.status(200).json({message: 'deleted'})
     }
 })
@@ -165,11 +141,16 @@ app.post('/edit', async (req: any, res: any)=>{
     const edited = req.body.edit
     const name = req.body.name
 
-    const taskedit = await taskimport.findByPk(edited)
+    const taskedit = await prisma.task.update({
+        where: {
+            id: edited
+        },
+        data: {
+            name: name
+        }
+    })
 
     if(taskedit){
-        taskedit.update({name: name})
-        await taskedit.save();
         res.status(200).json({message: 'update'})
     }
 })
@@ -182,33 +163,42 @@ app.post('/complete', async (req: any, res: any)=>{
 
     const idcomplete = req.body.complete
 
-    const taskcomplete = await taskimport.findByPk(idcomplete)
+    const taskcomplete = await prisma.task.update({
+        where: {
+            id: idcomplete
+        },
+        data: {
+            complete: true
+        }
+    })
 
     if(taskcomplete){
-        taskcomplete.update({complete: true})
-        await taskcomplete.save()
         res.status(200).json({message: 'update'})
     }
 })
 
 // END - ROUTE COMPLETE
 
-// ROUTE CONSULT
+// ROUTE CONSULT*/
 
 app.post('/consult', async (req: any, res:any)=>{
     const userconsult = req.body.user
-    const user = await Userimport.findOne({where: {user:userconsult}})
-    const id = user.dataValues.id
-    if(userconsult){
-        const tasks = await Userimport.findByPk(id,{
-            include: {
-                model: taskimport,
-                as: 'userId'
-            }
-        })
-        res.status(200).json(tasks.userId)
+    const user: Userconsult | null = await prisma.user.findFirst({where: {user:userconsult}})
+    if(user){
+        const id = user.id
+        if(id){
+            const tasks = await prisma.user.findUnique({
+                where: {
+                    id: id
+                },
+                include: {
+                    task: true
+                }
+            })
+            res.status(200).json(tasks?.task)
+        }
     }
-})*/
+})
 
 //END - ROUTE CONSULT
 

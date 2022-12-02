@@ -21,6 +21,6 @@ model Task {
   id        Int     @id @default(autoincrement())
   name      String
   complete  Boolean
-  User    User    @relation(fields: [userId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
   userId  Int
 }

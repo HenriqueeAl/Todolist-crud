@@ -31,10 +31,7 @@ app.post('/register', async (req: any , res: any) => {
     const usercadast: string = req.body.user
     const passwordcadast: string = req.body.password
 
-    const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})
-    res.send(userconsult)
-
-    /*const validantion = async ()=>{
+    const validantion = async ()=>{
         const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})
         console.log(req.body)
         if(userconsult){
@@ -71,7 +68,7 @@ app.post('/register', async (req: any , res: any) => {
         console.error(e)
         await prisma.$disconnect()
         process.exit(1)
-      })*/
+      })
 })
 
 // END - ROUTE REGISTER

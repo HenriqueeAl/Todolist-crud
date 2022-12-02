@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { env } from "process";
 
 const express = require('express');
@@ -32,8 +32,8 @@ app.post('/register', async (req: any , res: any) => {
     const passwordcadast: string = req.body.password
 
     const validantion = async ()=>{
+        await prisma.$connect
         const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})
-        console.log(req.body)
         if(userconsult){
             res.status(401).json({message: 'Usuario ja em uso', err: 'user'})
         }else{
@@ -67,7 +67,6 @@ app.post('/register', async (req: any , res: any) => {
       .catch(async (e) => {
         console.error(e)
         await prisma.$disconnect()
-        process.exit(1)
       })
 })
 

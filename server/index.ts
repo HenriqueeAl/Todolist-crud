@@ -10,7 +10,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // ROUTE REGISTER
-const prisma = new PrismaClient()
 
 interface Userconsult {
     id?: number | null;
@@ -28,6 +27,8 @@ app.get('/dois', (req: any, res: any)=>{
 })*/
 
 app.post('/register', async (req: any , res: any) => {
+    const prisma = new PrismaClient()
+
     const usercadast: string = req.body.user
     const passwordcadast: string = req.body.password
 
@@ -74,6 +75,8 @@ app.post('/register', async (req: any , res: any) => {
 // ROUTE LOGIN
 
 app.post('/login', async (req: any, res: any) => {
+    const prisma = new PrismaClient()
+
     const userlogin: string = req.body.user
     const passwordlogin: string = md5(req.body.password)
 
@@ -107,6 +110,8 @@ app.post('/login', async (req: any, res: any) => {
 // ROUTE TASKS
 
 app.post('/tasks', async (req: any, res: any) => {
+    const prisma = new PrismaClient()
+
     const name = req.body.name
     const loggeduser = req.body.user
     const userid: Userconsult | null = await prisma.user.findFirst({where: {user:loggeduser}})
@@ -125,6 +130,7 @@ app.post('/tasks', async (req: any, res: any) => {
 //ROUTE DELETE
 
 app.post('/delete', async (req: any, res: any)=>{
+    const prisma = new PrismaClient()
     const iddelete = req.body.deleted
 
     const taskdelete = await prisma.task.delete({where: {id: iddelete}})
@@ -139,6 +145,7 @@ app.post('/delete', async (req: any, res: any)=>{
 //ROUTE EDIT
 
 app.post('/edit', async (req: any, res: any)=>{
+    const prisma = new PrismaClient()
     const edited = req.body.edit
     const name = req.body.name
 
@@ -161,6 +168,7 @@ app.post('/edit', async (req: any, res: any)=>{
 // ROUTE COMPLETE
 
 app.post('/complete', async (req: any, res: any)=>{
+    const prisma = new PrismaClient()
 
     const idcomplete = req.body.complete
 
@@ -183,6 +191,8 @@ app.post('/complete', async (req: any, res: any)=>{
 // ROUTE CONSULT*/
 
 app.post('/consult', async (req: any, res:any)=>{
+    const prisma = new PrismaClient()
+    
     const userconsult = req.body.user
     const user: Userconsult | null = await prisma.user.findFirst({where: {user:userconsult}})
     if(user){

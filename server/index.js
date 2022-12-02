@@ -16,8 +16,8 @@ const md5 = require('md5');
 app.use(require("cors")());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-const prisma = new client_1.PrismaClient();
 app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient();
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
     const validantion = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -60,6 +60,7 @@ app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }));
 }));
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient();
     const userlogin = req.body.user;
     const passwordlogin = md5(req.body.password);
     const haveuser = yield prisma.user.findFirst({ where: { user: userlogin } });
@@ -87,6 +88,7 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 }));
 app.post('/tasks', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient();
     const name = req.body.name;
     const loggeduser = req.body.user;
     const userid = yield prisma.user.findFirst({ where: { user: loggeduser } });
@@ -99,6 +101,7 @@ app.post('/tasks', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 }));
 app.post('/delete', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient();
     const iddelete = req.body.deleted;
     const taskdelete = yield prisma.task.delete({ where: { id: iddelete } });
     if (taskdelete) {
@@ -106,6 +109,7 @@ app.post('/delete', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 }));
 app.post('/edit', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient();
     const edited = req.body.edit;
     const name = req.body.name;
     const taskedit = yield prisma.task.update({
@@ -121,6 +125,7 @@ app.post('/edit', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 }));
 app.post('/complete', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient();
     const idcomplete = req.body.complete;
     const taskcomplete = yield prisma.task.update({
         where: {
@@ -135,6 +140,7 @@ app.post('/complete', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 }));
 app.post('/consult', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient();
     const userconsult = req.body.user;
     const user = yield prisma.user.findFirst({ where: { user: userconsult } });
     if (user) {

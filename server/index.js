@@ -19,9 +19,11 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send('oi');
 });
-app.get('/dois', (req, res) => {
-    res.json('oi');
-});
+app.get('/dois', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient();
+    const userconsult = yield prisma.user.findMany();
+    res.json(userconsult);
+}));
 app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prisma = new client_1.PrismaClient();
     const usercadast = req.body.user;

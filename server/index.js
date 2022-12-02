@@ -16,6 +16,12 @@ const md5 = require('md5');
 app.use(require("cors")());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.get('/', (req, res) => {
+    res.send('oi');
+});
+app.get('/dois', (req, res) => {
+    res.json('oi');
+});
 app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prisma = new client_1.PrismaClient();
     const usercadast = req.body.user;

@@ -18,13 +18,13 @@ interface Userconsult {
     task?: object | null;
 }
 
-/*app.get('/', (req: any, res: any)=>{
-    res.json('oi')
+app.get('/', (req: any, res: any)=>{
+    res.send('oi')
 })
 
 app.get('/dois', (req: any, res: any)=>{
     res.json('oi')
-})*/
+})
 
 app.post('/register', async (req: any , res: any) => {
     const prisma = new PrismaClient()
@@ -192,7 +192,7 @@ app.post('/complete', async (req: any, res: any)=>{
 
 app.post('/consult', async (req: any, res:any)=>{
     const prisma = new PrismaClient()
-    
+
     const userconsult = req.body.user
     const user: Userconsult | null = await prisma.user.findFirst({where: {user:userconsult}})
     if(user){

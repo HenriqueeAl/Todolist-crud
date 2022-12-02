@@ -40,13 +40,13 @@ export const Loginregisterform = (props: Form) =>{
     const inputpassword = useRef<HTMLInputElement>(null);
 
     const submit = () => {
-        axios.post('https://todolist-crud-p9gc-4vz8cwnmx-henriqueeal.vercel.app'/* + props.post, */,{
+        axios.post('http://localhost:5051' + props.post,{
             user: user,
             password: password
         }).then((res)=>{
             notifysucces()
             if(res.data.user){
-                window.location.href = "https://todolist-crud.vercel.app/";
+                //window.location.href = "https://todolist-crud.vercel.app/";
                 localStorage.setItem('u', res.data.user)
                 login.login()
             }

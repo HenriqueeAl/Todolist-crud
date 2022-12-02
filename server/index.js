@@ -17,48 +17,10 @@ app.use(require("cors")());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const prisma = new client_1.PrismaClient();
-app.post('/', (req, res) => {
+app.post('/register', (req, res) => {
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
-    const validantion = () => __awaiter(void 0, void 0, void 0, function* () {
-        const userconsult = yield prisma.user.findFirst({ where: { user: usercadast } });
-        if (userconsult) {
-            res.status(401).json({ message: 'Usuario ja em uso', err: 'user' });
-        }
-        else {
-            if (usercadast.length >= 6) {
-                if (passwordcadast.length >= 8) {
-                    yield prisma.user.create({
-                        data: {
-                            user: usercadast,
-                            password: md5(passwordcadast),
-                        }
-                    });
-                    res.status(200).json({ message: 'cadastrado', });
-                }
-                else {
-                    res.status(401).json({
-                        message: 'A Senha deve ter 8 caracteres',
-                        err: 'password'
-                    });
-                }
-            }
-            else {
-                res.status(401).json({
-                    message: 'O Usuario deve ter 6 caracteres',
-                    err: 'user'
-                });
-            }
-        }
-    });
-    validantion().then(() => __awaiter(void 0, void 0, void 0, function* () {
-        yield prisma.$disconnect();
-    }))
-        .catch((e) => __awaiter(void 0, void 0, void 0, function* () {
-        console.error(e);
-        yield prisma.$disconnect();
-        process.exit(1);
-    }));
+    res.send('oi');
 });
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userlogin = req.body.user;

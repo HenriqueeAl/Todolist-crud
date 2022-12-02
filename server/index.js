@@ -20,7 +20,7 @@ const prisma = new client_1.PrismaClient();
 app.post('/register', (req, res) => {
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
-    res.send('oi');
+    res.send(usercadast);
 });
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userlogin = req.body.user;

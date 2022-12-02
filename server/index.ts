@@ -31,7 +31,7 @@ app.post('/register', (req: any , res: any) => {
     const usercadast: string = req.body.user
     const passwordcadast: string = req.body.password
 
-    res.send('oi')
+    res.send(usercadast)
 
     /*const validantion = async ()=>{
         const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})

@@ -21,10 +21,9 @@ app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
     const validantion = () => __awaiter(void 0, void 0, void 0, function* () {
-        yield prisma.$connect();
-        const userconsult = yield prisma.user.findFirst({ where: { user: usercadast } });
+        const userconsult = yield prisma.user.findMany();
         if (userconsult) {
-            res.status(401).json({ message: 'Usuario ja em uso', err: 'user' });
+            res.status(401).json({ message: 'Usuario ja em uso', err: 'user', view: userconsult });
         }
         else {
             if (usercadast.length >= 6) {
@@ -53,7 +52,7 @@ app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
     });
     validantion().then(() => __awaiter(void 0, void 0, void 0, function* () {
-        yield prisma.$disconnect();
+        yield prisma.$connect();
     }))
         .catch((e) => __awaiter(void 0, void 0, void 0, function* () {
         console.error(e);

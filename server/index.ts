@@ -32,10 +32,9 @@ app.post('/register', async (req: any , res: any) => {
     const passwordcadast: string = req.body.password
 
     const validantion = async ()=>{
-        await prisma.$connect()
-        const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})
+        const userconsult = await prisma.user.findMany()
         if(userconsult){
-            res.status(401).json({message: 'Usuario ja em uso', err: 'user'})
+            res.status(401).json({message: 'Usuario ja em uso', err: 'user', view: userconsult})
         }else{
             if(usercadast.length >= 6){
                 if(passwordcadast.length >= 8){
@@ -62,7 +61,7 @@ app.post('/register', async (req: any , res: any) => {
     }
 
     validantion().then(async () => {
-        await prisma.$disconnect()
+        await prisma.$connect()
       })
       .catch(async (e) => {
         console.error(e)

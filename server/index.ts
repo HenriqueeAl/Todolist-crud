@@ -18,15 +18,15 @@ interface Userconsult {
     task?: object | null;
 }
 
-app.get('/', (req: any, res: any)=>{
+/*app.get('/', (req: any, res: any)=>{
     res.json('oi')
 })
 
 app.get('/dois', (req: any, res: any)=>{
     res.json('oi')
-})
+})*/
 
-app.post('/register', (req: any , res: any) => {
+app.post('/', (req: any , res: any) => {
     const usercadast: string = req.body.user
     const passwordcadast: string = req.body.password
 

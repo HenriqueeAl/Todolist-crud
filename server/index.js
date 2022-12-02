@@ -17,13 +17,7 @@ app.use(require("cors")());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const prisma = new client_1.PrismaClient();
-app.get('/', (req, res) => {
-    res.json('oi');
-});
-app.get('/dois', (req, res) => {
-    res.json('oi');
-});
-app.post('/register', (req, res) => {
+app.post('/', (req, res) => {
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
     const validantion = () => __awaiter(void 0, void 0, void 0, function* () {

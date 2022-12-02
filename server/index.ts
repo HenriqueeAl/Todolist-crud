@@ -22,12 +22,6 @@ app.get('/', (req: any, res: any)=>{
     res.send('oi')
 })
 
-app.get('/dois', async (req: any, res: any)=>{
-    const prisma = new PrismaClient()
-    const userconsult = await prisma.user.findMany()
-    res.send(userconsult)
-})
-
 app.post('/register', async (req: any , res: any) => {
     const prisma = new PrismaClient()
 

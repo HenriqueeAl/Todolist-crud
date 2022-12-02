@@ -20,6 +20,9 @@ const prisma = new client_1.PrismaClient();
 app.get('/', (req, res) => {
     res.json('oi');
 });
+app.get('/dois', (req, res) => {
+    res.json('oi');
+});
 app.post('/register', (req, res) => {
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;

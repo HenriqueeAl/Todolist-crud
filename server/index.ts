@@ -24,7 +24,7 @@ app.get('/', (req: any, res: any)=>{
 
 app.get('/dois', async (req: any, res: any)=>{
     const prisma = new PrismaClient()
-    console.log(await prisma)
+    console.log(await prisma.user.findMany())
     //const userconsult = await prisma.user.findMany()
     //res.send(prisma)
 })

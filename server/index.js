@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 });
 app.get('/dois', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prisma = new client_1.PrismaClient();
-    console.log(yield prisma);
+    console.log(yield prisma.user.findMany());
 }));
 app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prisma = new client_1.PrismaClient();

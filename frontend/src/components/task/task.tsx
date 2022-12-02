@@ -73,7 +73,7 @@ export const Task = () => {
     const [taskname, setTaskname] = useState('');
 
     const posttask = ()=> {
-        axios.post('http://localhost:5051/tasks', {
+        axios.post('https://todolist-crud-p9gc-4vz8cwnmx-henriqueeal.vercel.app/tasks', {
             name: taskname,
             user: login.loggeduser
         }).then((res)=>{
@@ -88,7 +88,7 @@ export const Task = () => {
     const [deleted, setDeleted] = useState()
 
     const deletetask = async (e: Id)=>{
-        axios.post('http://localhost:5051/delete', {
+        axios.post('https://todolist-crud-p9gc-4vz8cwnmx-henriqueeal.vercel.app/delete', {
             deleted: e
         }).then((res)=>{
             notifydeleted()
@@ -101,7 +101,7 @@ export const Task = () => {
     /*Marcando task como completada*/
 
     const completetask = async (e: Id)=>{
-        await  axios.post('http://localhost:5051/complete', {
+        await  axios.post('https://todolist-crud-p9gc-4vz8cwnmx-henriqueeal.vercel.app/complete', {
             complete: e
         }).then(()=>notifycomlete())
         update()
@@ -113,7 +113,7 @@ export const Task = () => {
 
     const modifyname = (e: modify)=>{
         
-        axios.post('http://localhost:5051/edit', {
+        axios.post('https://todolist-crud-p9gc-4vz8cwnmx-henriqueeal.vercel.app/edit', {
             edit: e,
             name: value
         }).then((res)=>notifyedited())
@@ -123,7 +123,7 @@ export const Task = () => {
 
     /*Mostar as tasks na tela*/
     const update = () => {
-        axios.post('http://localhost:5051/consult', {
+        axios.post('https://todolist-crud-p9gc-4vz8cwnmx-henriqueeal.vercel.app/consult', {
             user: login.loggeduser
         }).then((res)=>{
             const arrayorder = res.data

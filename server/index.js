@@ -17,11 +17,12 @@ app.use(require("cors")());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const prisma = new client_1.PrismaClient();
-app.post('/register', (req, res) => {
+app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usercadast = req.body.user;
     const passwordcadast = req.body.password;
-    res.send(usercadast);
-});
+    const userconsult = yield prisma.user.findFirst({ where: { user: usercadast } });
+    res.send(userconsult);
+}));
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userlogin = req.body.user;
     const passwordlogin = md5(req.body.password);

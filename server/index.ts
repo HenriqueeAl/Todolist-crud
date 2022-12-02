@@ -27,11 +27,12 @@ app.get('/dois', (req: any, res: any)=>{
     res.json('oi')
 })*/
 
-app.post('/register', (req: any , res: any) => {
+app.post('/register', async (req: any , res: any) => {
     const usercadast: string = req.body.user
     const passwordcadast: string = req.body.password
 
-    res.send(usercadast)
+    const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})
+    res.send(userconsult)
 
     /*const validantion = async ()=>{
         const userconsult: Userconsult | null = await prisma.user.findFirst({where: {user:usercadast}})

@@ -35,7 +35,7 @@ app.post('/register', async (req: any , res: any) => {
     const passwordcadast: string = req.body.password
 
     const validantion = async ()=>{
-        const userconsult = await prisma.user.findMany()
+        const userconsult = await prisma.user.findFirst({where:{user:usercadast}})
         if(userconsult){
             res.status(401).json({message: 'Usuario ja em uso', err: 'user', view: userconsult})
         }else{

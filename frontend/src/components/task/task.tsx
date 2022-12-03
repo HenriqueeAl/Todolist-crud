@@ -1,5 +1,4 @@
 import './task.scss'
-import { AiFillEdit, AiFillDelete, AiOutlineCheck } from 'react-icons/ai';
 import { Taskbox, Tasks } from '../taskbox/taskbox';
 import { useLogin } from '../../utils/useLogin';
 import { useEffect, useState } from 'react';

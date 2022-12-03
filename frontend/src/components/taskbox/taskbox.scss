@@ -10,8 +10,24 @@
     font-weight: 700;
     font-size: 24px;
     color: white;
+    @media (max-width:600px) {
+        font-size: 20px;
+    }
+    @media (max-width:400px) {
+        font-size: 16px;
+    }
     p{
         width: 75%;
+        overflow: hidden;
+        text-overflow: clip;
+        text-overflow: ellipsis;
+        text-overflow: "…";
+        @media (max-width:850px) {
+            width: 70%;
+        }
+        @media (max-width:570px) {
+            width: 85%;
+        }
     }
     form{
         width: 100%;
@@ -38,6 +54,15 @@
         padding-right: 20px;
         .icon{
             cursor: pointer;
+        }
+        @media (max-width:850px) {
+            width: 30%;
+            justify-content: space-around;
+        }
+        @media (max-width:570px) {
+            width: 15%;
+            height: 90%;
+            flex-direction: column;
         }
     }
 }
